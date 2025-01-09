@@ -12,11 +12,12 @@
             background-color: #14422f;
             color: white;
             margin: 0;
+            margin-top: 20px;
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: top;
+            min-height: 450px;
         }
         .container {
             width: 90%;
@@ -96,6 +97,31 @@
             background-color: #0a290c;
             margin: 0;
             padding: 10px;
+        }
+        .team h3 {
+            text-align: center;
+            background-color: #0a290c;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Espacio entre el círculo y el texto */
+        }
+        .team .team-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .team .winner {
+            background-color: #28a745; /* Verde para el ganador */
+        }
+        .team .loser {
+            background-color: #dc3545; /* Rojo para el perdedor */
+        }
+        .team .draw {
+            background-color: #ffc107; /* Amarillo para empate */
         }
         .team table {
             width: 100%;
@@ -222,7 +248,7 @@
         <div class="match-buttons"></div> <!-- Contenedor para los botones -->
         <div class="teams">
             <div class="team">
-                <h3>EQUIPO 1</h3>
+                <h3>EQUIPO 1<span class="team-indicator" id="team1-indicator"></h3> 
                 <table>
                     <thead>
                         <tr>
@@ -232,36 +258,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="number-td">1</td>
-                            <td>JUGADOR 1</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">2</td>
-                            <td>JUGADOR 2</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">3</td>
-                            <td>JUGADOR 3</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">4</td>
-                            <td>JUGADOR 4</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">5</td>
-                            <td>JUGADOR 5</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="team">
-                <h3>EQUIPO 2</h3>
+                <h3>EQUIPO 2<span class="team-indicator" id="team2-indicator"></h3>
                 <table>
                     <thead>
                         <tr>
@@ -271,31 +272,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="number-td">1</td>
-                            <td>JUGADOR 1</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">2</td>
-                            <td>JUGADOR 2</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">3</td>
-                            <td>JUGADOR 3</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">4</td>
-                            <td>JUGADOR 4</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
-                        <tr>
-                            <td class="number-td">5</td>
-                            <td>JUGADOR 5</td>
-                            <td><button class="info-button">+</button></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
