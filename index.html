@@ -13,6 +13,7 @@
             color: white;
             margin: 0;
             margin-top: 20px;
+            margin-bottom: 10px;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -24,7 +25,7 @@
             max-width: 800px;
             background-color: #1e3d19;
             border: 2px solid #0a290c;
-            padding: 20px 5px;
+            padding: 20px 5px 5px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -199,7 +200,38 @@
             background-color: #285b26; /* Cambia el color de fondo para destacar */
             font-weight: bold;
         }
-        
+        .icons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            margin: 5px 5px 0;
+        }
+        .icon {
+            width: 25px;
+            height: 25px;
+            transition: filter 0.3s, transform 0.3s;
+            filter: brightness(0) invert(40%) sepia(50%) saturate(300%) hue-rotate(100deg);
+        }
+        .icon:hover {
+            filter: brightness(0) invert(100%);
+            transform: scale(1.1);
+        }
+        .icons-l, .icons-r {
+            display: flex;
+            gap: 10px; /* Espaciado entre íconos */
+        }
+        .icons-l {
+            justify-content: flex-start; /* Alinea a la izquierda */
+        }
+        .icons-r{
+            justify-content: flex-end; /* Alinea a la derecha */
+        }
+        .icons-r .icon{
+            width: 30px;
+            height: 30px;
+        }
+
         @media (max-width: 768px) {
             .teams {
                 flex-direction: column;
@@ -208,7 +240,6 @@
     
             .team {
                 width: 100%;
-                margin-bottom: 10px;
             }
         }
     </style>
@@ -276,6 +307,18 @@
                 </table>
             </div>
         </div>
+        <div class="icons">
+            <div class="icons">
+                <div class="icons-l">
+                    <img src="assets/icons/football-787-svgrepo-com.svg" class="icon" alt="Football Icon">
+                    <img src="assets/icons/trophy-svgrepo-com.svg" class="icon" alt="Trophy Icon">
+                    <img src="assets/icons/stats-svgrepo-com.svg" class="icon" alt="Stats Icon">
+                </div>
+                <div class="icons-r">
+                    <img src="assets/icons/delete-svgrepo-com.svg" class="icon" alt="Delete Icon">
+                    <img src="assets/icons/new-document-svgrepo-com.svg" class="icon" alt="New Document Icon">
+                </div>
+            </div>       
     </div>
 </body>
 </html>
