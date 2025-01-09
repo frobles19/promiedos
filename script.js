@@ -50,33 +50,49 @@ async function loadLastMatch() {
 
 // Cargar jugadores de un partido específico
 async function loadPlayersForMatch(matchId) {
-  try {
-    const { data: participations, error: participationError } = await supabase
-      .from("participaciones")
-      .select("id_jugador, equipo, jugadores(nombre)")
-      .eq("id_partido", matchId);
-
-    if (participationError) throw participationError;
-
-    // Limpiar las listas de jugadores anteriores antes de cargar nuevos
-    clearTeams();
-
-    if (!participations || participations.length === 0) {
-      // Si no hay jugadores, no renderizamos nada
-      console.log("No se encontraron jugadores para este partido.");
-      return;
+    try {
+      const { data: lastMatch, error: matchError } = await supabase
+        .from("partidos")
+        .select("*")
+        .eq("id_partido", matchId)
+        .single();
+  
+      if (matchError) throw matchError;
+  
+      // Formatear y mostrar la nueva fecha y lugar
+      document.querySelector(".date").textContent = formatDate(new Date(lastMatch.fecha));
+      document.querySelector(".location").textContent = lastMatch.lugar;
+  
+      // Cargar jugadores
+      const { data: participations, error: participationError } = await supabase
+        .from("participaciones")
+        .select("id_jugador, equipo, jugadores(nombre)")
+        .eq("id_partido", matchId);
+  
+      if (participationError) throw participationError;
+  
+      // Limpiar las listas de jugadores anteriores antes de cargar nuevos
+      clearTeams();
+  
+      if (!participations || participations.length === 0) {
+        console.log("No se encontraron jugadores para este partido.");
+        return;
+      }
+  
+      // Filtrar los jugadores por equipo
+      const team1 = participations.filter(p => p.equipo === 1);
+      const team2 = participations.filter(p => p.equipo === 2);
+  
+      renderTeam(team1, ".team:first-child");
+      renderTeam(team2, ".team:last-child");
+  
+      // Actualizar el indicador de equipos según el resultado
+      updateTeamIndicators(lastMatch.resultado);
+  
+    } catch (err) {
+      console.error("Error al cargar jugadores:", err.message);
     }
-
-    // Filtrar los jugadores por equipo
-    const team1 = participations.filter(p => p.equipo === 1);
-    const team2 = participations.filter(p => p.equipo === 2);
-
-    renderTeam(team1, ".team:first-child");
-    renderTeam(team2, ".team:last-child");
-  } catch (err) {
-    console.error("Error al cargar jugadores:", err.message);
   }
-}
 
 // Limpiar las listas de jugadores
 function clearTeams() {
