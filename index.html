@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROMIEDOS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #14422f;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #1e3d19;
+            border: 2px solid #0a290c;
+            padding: 20px 5px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #6ba441;
+            border-radius: 8px;
+            overflow: hidden;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #000;
+        }
+        .icon-button {
+            background: none;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-button:last-child {
+            transform: rotate(180deg);
+        }
+        .icon-button svg {
+            width: 50px;
+            height: 32px;
+            fill: black;
+            transition: transform 0.2s;
+        }
+        .icon-button:hover svg {        
+            transform: scale(1.2);
+        }
+        .header .date-location {
+            flex-grow: 1;
+            text-align: center;
+            background-color: #3a6e36;
+            color: white;
+            padding: 5px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-right: 1px solid #000;
+            border-left: 1px solid #000;
+        }
+        .header .date-location .date, .header .date-location .location {
+            display: block;
+            margin: 5px 0;
+        }
+        .teams {
+            display: flex;
+            justify-content:space-around;
+            gap: 5px;
+        }
+        .team {
+            background-color: #1e3d19;
+            width: 48%;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .team h3 {
+            text-align: center;
+            background-color: #0a290c;
+            margin: 0;
+            padding: 10px;
+        }
+        .team table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .team table th, .team table td {
+            padding: 5px;
+            border-bottom: 1px solid #1e3d19;
+        }
+        .team table th:last-child {
+            text-align: right;
+            font-size: 0.9em;
+        }
+        .team table tr:nth-child(even) td {
+            background-color: #d5d5d5;
+            color: black;
+        }
+        .team table tr:nth-child(odd) td {
+            background-color: #e6e6e6;
+            color: black;
+        }
+        .team table tr:last-child td {
+            border-bottom: none;
+        }
+        .team table th {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+        }
+        .team table td {
+            font-weight: bold;
+        }
+        .info-button {
+            background-color: #4c8e47;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .info-button:hover {
+            background-color: #5da959;
+        }
+        .info-button {
+            display: block;
+            margin-left: auto;
+        }
+        .match-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 85px 0 30px;
+        }
+        .match-button {
+            background-color: #6ba441;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .match-button:hover {
+            background-color: #5da959;
+        }
+        .match-button.selected {
+            background-color: #285b26; /* Cambia el color de fondo para destacar */
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .teams {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .team {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="icon-button">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1280.000000 1141.000000" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,1141.000000) scale(0.100000,-0.100000)" fill="#000" stroke="none">
+                        <path d="M6959 11387 c-24 -12 -1005 -852 -2179 -1867 -1174 -1014 -2624
+                        -2267 -3222 -2783 -1182 -1021 -1128 -969 -1112 -1061 5 -29 19 -53 53 -87 41
+                        -42 1245 -1069 5194 -4429 676 -575 1241 -1051 1255 -1059 62 -33 150 -9 194
+                        51 l23 33 5 1310 5 1310 2030 5 2030 5 33 23 c18 13 40 38 50 55 16 30 17 192
+                        17 2802 0 2752 0 2770 -20 2804 -11 19 -33 43 -48 55 l-28 21 -2032 5 -2032 5
+                        -5 1350 c-5 1229 -6 1353 -21 1380 -22 39 -46 60 -93 79 -48 20 -44 20 -97 -7z"/>
+                    </g>
+                </svg>
+            </button>
+            <div class="date-location">
+                <span class="date">FECHA</span>
+                <span class="location">LUGAR</span>
+            </div>
+            <button class="icon-button">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1280.000000 1141.000000" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,1141.000000) scale(0.100000,-0.100000)" fill="#000" stroke="none">
+                        <path d="M6959 11387 c-24 -12 -1005 -852 -2179 -1867 -1174 -1014 -2624
+                        -2267 -3222 -2783 -1182 -1021 -1128 -969 -1112 -1061 5 -29 19 -53 53 -87 41
+                        -42 1245 -1069 5194 -4429 676 -575 1241 -1051 1255 -1059 62 -33 150 -9 194
+                        51 l23 33 5 1310 5 1310 2030 5 2030 5 33 23 c18 13 40 38 50 55 16 30 17 192
+                        17 2802 0 2752 0 2770 -20 2804 -11 19 -33 43 -48 55 l-28 21 -2032 5 -2032 5
+                        -5 1350 c-5 1229 -6 1353 -21 1380 -22 39 -46 60 -93 79 -48 20 -44 20 -97 -7z"/>
+                    </g>
+                </svg>
+            </button>
+        </div>
+        <div class="match-buttons"></div> <!-- Contenedor para los botones -->
+        <div class="teams">
+            <div class="team">
+                <h3>EQUIPO 1</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="number-td">1</td>
+                            <td>JUGADOR 1</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">2</td>
+                            <td>JUGADOR 2</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">3</td>
+                            <td>JUGADOR 3</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">4</td>
+                            <td>JUGADOR 4</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">5</td>
+                            <td>JUGADOR 5</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="team">
+                <h3>EQUIPO 2</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="number-td">1</td>
+                            <td>JUGADOR 1</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">2</td>
+                            <td>JUGADOR 2</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">3</td>
+                            <td>JUGADOR 3</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">4</td>
+                            <td>JUGADOR 4</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                        <tr>
+                            <td class="number-td">5</td>
+                            <td>JUGADOR 5</td>
+                            <td><button class="info-button">+</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
