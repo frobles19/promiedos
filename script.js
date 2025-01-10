@@ -226,3 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
   loadMatchButtons(); // Cargar botones F1, F2, ...
   loadLastMatch();    // Cargar datos del último partido por defecto
 });
+
+// Redireccion a otro HTML
+document.getElementById("playersIcon").addEventListener("click", function() {
+  window.location.href = "players.html";
+});

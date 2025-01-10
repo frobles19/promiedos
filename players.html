@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROMIEDOS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="script-players.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #14422f;
+            color: white;
+            margin: 0;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: top;
+            min-height: 450px;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #1e3d19;
+            border: 2px solid #0a290c;
+            padding: 20px 5px 5px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .teams {
+            display: flex;
+            justify-content: space-around;
+            gap: 5px;
+        }
+        .team {
+            background-color: #1e3d19;
+            width: 98%;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .team h3 {
+            text-align: center;
+            background-color: #0a290c;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .team table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.2em;
+        }
+        .team table th:nth-child(1),
+        .team table td:nth-child(1) {
+            text-align: center;
+        }
+        .team table th:nth-child(1) {
+            width: 5%;
+        }
+        .team table td:nth-child(1) {
+            width: 5%;
+        }
+        .team table th:nth-child(2) {
+            width: 25%;
+        }
+        .team table td:nth-child(2) {
+            width: 25%;
+        }
+        .team table th:nth-child(n+3),
+        .team table td:nth-child(n+4) {
+            text-align: center;
+        }
+        .team table tr:nth-child(even) td {
+            background-color: #d5d5d5;
+            color: black;
+        }
+        .team table tr:nth-child(odd) td {
+            background-color: #e6e6e6;
+            color: black;
+        }
+        .team table tr:last-child td {
+            border-bottom: none;
+        }
+        .team table th {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+        }
+        .team table td {
+            font-weight: bold;
+
+        }
+        .streak {
+            text-align: right;
+        }
+        .th-name {
+            text-align: left;
+        }
+        .team table th:nth-child(4),
+        .team table td:nth-child(4),
+        .team table th:nth-child(5),
+        .team table td:nth-child(5),
+        .team table th:nth-child(6),
+        .team table td:nth-child(6),
+        .team table th:nth-child(7),
+        .team table td:nth-child(7),
+        .team table th:nth-child(8),
+        .team table td:nth-child(8) {
+            max-width: 40px;
+            width: 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .teams {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .team {
+                width: 100%;
+            }
+            .team table th:nth-child(4),
+            .team table td:nth-child(4),
+            .team table th:nth-child(5),
+            .team table td:nth-child(5),
+            .team table th:nth-child(6),
+            .team table td:nth-child(6),
+            .team table th:nth-child(7),
+            .team table td:nth-child(7),
+            .team table th:nth-child(8),
+            .team table td:nth-child(8) {
+                max-width: 40px;
+                width: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="teams">
+            <div class="team">
+                <h3>TABLA JUGADORES<span class="team-indicator" id="team1-indicator"></h3> 
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="th-name">Nombre</th>
+                                <th></th>
+                                <th>PJ</th>
+                                <th>G</th>
+                                <th>E</th>
+                                <th>P</th>
+                                <th>DIF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
