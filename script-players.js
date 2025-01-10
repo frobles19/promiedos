@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     pj: 0,  // Partidos jugados
                     g: 0,   // Partidos ganados
                     e: 0,   // Partidos empatados
-                    p: 0    // Partidos perdidos
+                    p: 0,   // Partidos perdidos
+                    difGol: 0 // Diferencia de gol
                 };
             });
 
@@ -58,8 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         estadisticas[idJugador].e += 1; // Empate
                     } else if (equipoGanador === equipo) {
                         estadisticas[idJugador].g += 1; // Ganado
+                        estadisticas[idJugador].difGol += Math.abs(resultado); // Sumar diferencia de gol
                     } else {
                         estadisticas[idJugador].p += 1; // Perdido
+                        estadisticas[idJugador].difGol -= Math.abs(resultado); // Restar diferencia de gol
                     }
                 });
             });
@@ -70,15 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     b.g - a.g ||        // Primero, partidos ganados
                     b.e - a.e ||        // Segundo, partidos empatados
                     b.pj - a.pj ||      // Tercero, partidos jugados
-                    a.id - b.id         // Cuarto, id del jugador
+                    b.difGol - a.difGol ||      // Cuarto, diferencia de gol
+                    a.id - b.id         // Quinto, id del jugador
                 );
+
             // Generar HTML de la tabla
             const tbody = document.querySelector('tbody');
             tbody.innerHTML = '';
 
             jugadoresOrdenados.forEach(([id, stats], index) => {
                 const rachaHTML = generarRacha(parseInt(id), participaciones, partidos);
-            
+
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${index + 1}</td>
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${stats.g}</td>
                     <td>${stats.e}</td>
                     <td>${stats.p}</td>
-                    <td></td>
+                    <td>${stats.difGol}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -109,22 +114,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
         // Tomar los últimos 5 partidos
-        const ultimosTres = participacionesJugador.slice(-5);
+        const ultimosCinco = participacionesJugador.slice(-5);
     
         // Generar los círculos de colores
-        const circulos = ultimosTres.map(participacion => {
+        const circulos = ultimosCinco.map(participacion => {
             const partido = partidos.find(p => p.id_partido === participacion.id_partido);
             const resultado = partido.resultado;
             const equipo = participacion.equipo;
     
             let color = '#ffc107'; // Empate por defecto
+            let wdl = 'E';
             if (resultado > 0 && equipo === 1 || resultado < 0 && equipo === 2) {
                 color = '#28a745'; // Ganó
+                wdl = 'V';
             } else if (resultado < 0 && equipo === 1 || resultado > 0 && equipo === 2) {
                 color = '#dc3545'; // Perdió
+                wdl = 'P';
             }
     
-            return `<span style="display:inline-block; width: 18px; height: 18px; border-radius: 20%; background-color: ${color}; margin: 0 2px;"></span>`;
+            return `<span style="display:inline-block; width: 18px; height: 18px; border-radius: 20%; background-color: ${color}; margin: 0 2px; font-size: 0.7em; text-align: center; line-height: 18px;">${wdl}</span>`;
         }).join('');
     
         // Retornar los círculos envueltos en un contenedor alineado a la derecha
