@@ -124,14 +124,31 @@
         .team .draw {
             background-color: #ffc107; /* Amarillo para empate */
         }
+        .team .unplayed {
+            background-color: gray; /* Amarillo para empate */
+        }
         .team table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
+            table-layout: fixed;
         }
         .team table th, .team table td {
             padding: 5px;
             border-bottom: 1px solid #1e3d19;
+        }
+        .team table th:nth-child(1), .team table td:nth-child(1) {
+            width: 10%; /* Ancho fijo para la columna del número */
+            text-align: center;
+        }
+
+        .team table th:nth-child(2), .team table td:nth-child(2) {
+            width: 70%; /* Ancho fijo para la columna del nombre */
+        }
+
+        .team table th:nth-child(3), .team table td:nth-child(3) {
+            width: 20%; /* Ancho fijo para la columna de info */
+            text-align: right;
         }
         .team table th:last-child {
             text-align: right;

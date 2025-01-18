@@ -102,26 +102,76 @@ function clearTeams() {
 }
 
 // Renderizar los jugadores de un equipo
-function renderTeam(team, teamSelector) {
-  const tbody = document.querySelector(`${teamSelector} tbody`);
-  if (team.length === 0) return; // Si no hay jugadores, no renderizamos nada
+function renderTeams(team1, team2) {
+  const tbody1 = document.querySelector(".team:first-child tbody");
+  const tbody2 = document.querySelector(".team:last-child tbody");
 
-  team.forEach((player, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${player.jugadores.nombre}</td>
-      <td><button class="info-button">+</button></td>
-    `;
-    tbody.appendChild(row);
-  });
+  tbody1.innerHTML = "";
+  tbody2.innerHTML = "";
+
+  const maxPlayers = Math.max(team1.length, team2.length);
+
+  for (let i = 0; i < maxPlayers; i++) {
+      // Agregar jugador al equipo 1 o colocar "--" si no hay más jugadores
+      const row1 = document.createElement("tr");
+      if (i < team1.length) {
+          row1.innerHTML = `
+              <td>${i + 1}</td>
+              <td>${team1[i].jugadores.nombre}</td>
+              <td><button class="info-button">+</button></td>
+          `;
+      } else {
+          row1.innerHTML = `
+              <td>${i + 1}</td>
+              <td>--</td>
+              <td><button class="info-button">x</button></td>
+          `;
+      }
+      tbody1.appendChild(row1);
+
+      // Agregar jugador al equipo 2 o colocar "--" si no hay más jugadores
+      const row2 = document.createElement("tr");
+      if (i < team2.length) {
+          row2.innerHTML = `
+              <td>${i + 1}</td>
+              <td>${team2[i].jugadores.nombre}</td>
+              <td><button class="info-button">+</button></td>
+          `;
+      } else {
+          row2.innerHTML = `
+              <td>${i + 1}</td>
+              <td>--</td>
+              <td><button class="info-button">x</button></td>
+          `;
+      }
+      tbody2.appendChild(row2);
+  }
+}
+
+// Modificar loadPlayersForMatch para usar renderTeams
+async function loadPlayersForMatch(matchId) {
+  try {
+      const { data: participations, error: participationError } = await supabase
+          .from("participaciones")
+          .select("id_jugador, equipo, jugadores(nombre)")
+          .eq("id_partido", matchId);
+
+      if (participationError) throw participationError;
+
+      const team1 = participations.filter(p => p.equipo === 1);
+      const team2 = participations.filter(p => p.equipo === 2);
+
+      renderTeams(team1, team2);
+  } catch (err) {
+      console.error("Error al cargar jugadores:", err.message);
+  }
 }
 
 // Asignar las clases según el resultado
 function updateTeamIndicators(result) {
   // Restablecer clases antes de agregar las nuevas
-  document.getElementById("team1-indicator").classList.remove("winner", "loser", "draw");
-  document.getElementById("team2-indicator").classList.remove("winner", "loser", "draw");
+  document.getElementById("team1-indicator").classList.remove("winner", "loser", "draw", "unplayed");
+  document.getElementById("team2-indicator").classList.remove("winner", "loser", "draw", "unplayed");
 
   // Asignar las clases según el resultado
   if (result > 0) {  // Equipo 1 gana
@@ -130,6 +180,9 @@ function updateTeamIndicators(result) {
   } else if (result === 0) {  // Empate
     document.getElementById("team1-indicator").classList.add("draw");
     document.getElementById("team2-indicator").classList.add("draw");
+  } else if (result === -999) {  // Empate
+    document.getElementById("team1-indicator").classList.add("unplayed");
+    document.getElementById("team2-indicator").classList.add("unplayed");
   } else {  // Equipo 2 gana
     document.getElementById("team1-indicator").classList.add("loser");
     document.getElementById("team2-indicator").classList.add("winner");

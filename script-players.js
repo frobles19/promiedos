@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Calcular estadísticas
             partidos.forEach(partido => {
                 const resultado = partido.resultado;
+
+                // Ignorar partidos con resultado -999
+                if (resultado === -999) return;
+
                 let equipoGanador = null;
 
                 if (resultado > 0) equipoGanador = 1;
@@ -113,8 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return new Date(partidoA.fecha) - new Date(partidoB.fecha);
             });
     
-        // Tomar los últimos 5 partidos
-        const ultimosCinco = participacionesJugador.slice(-5);
+        // Tomar los últimos 5 partidos válidos (excluir -999)
+        const ultimosCinco = participacionesJugador
+            .filter(p => {
+                const partido = partidos.find(partido => partido.id_partido === p.id_partido);
+                return partido.resultado !== -999;
+            })
+            .slice(-5);
     
         // Generar los círculos de colores
         const circulos = ultimosCinco.map(participacion => {
