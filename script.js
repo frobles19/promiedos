@@ -168,24 +168,35 @@ async function loadPlayersForMatch(matchId) {
 }
 
 // Asignar las clases según el resultado
+// Asignar las clases según el resultado
 function updateTeamIndicators(result) {
-  // Restablecer clases antes de agregar las nuevas
-  document.getElementById("team1-indicator").classList.remove("winner", "loser", "draw", "unplayed");
-  document.getElementById("team2-indicator").classList.remove("winner", "loser", "draw", "unplayed");
+  const team1Indicator = document.getElementById("team1-indicator");
+  const team2Indicator = document.getElementById("team2-indicator");
 
-  // Asignar las clases según el resultado
+  // Restablecer clases antes de agregar las nuevas
+  team1Indicator.classList.remove("winner", "loser", "draw", "unplayed");
+  team2Indicator.classList.remove("winner", "loser", "draw", "unplayed");
+
   if (result > 0) {  // Equipo 1 gana
-    document.getElementById("team1-indicator").classList.add("winner");
-    document.getElementById("team2-indicator").classList.add("loser");
+      team1Indicator.classList.add("winner");
+      team2Indicator.classList.add("loser");
+      team1Indicator.textContent = `+${result}`;
+      team2Indicator.textContent = `-${result}`;
   } else if (result === 0) {  // Empate
-    document.getElementById("team1-indicator").classList.add("draw");
-    document.getElementById("team2-indicator").classList.add("draw");
-  } else if (result === -999) {  // Empate
-    document.getElementById("team1-indicator").classList.add("unplayed");
-    document.getElementById("team2-indicator").classList.add("unplayed");
+      team1Indicator.classList.add("draw");
+      team2Indicator.classList.add("draw");
+      team1Indicator.textContent = "=";
+      team2Indicator.textContent = "=";
+  } else if (result === -999) {  // Partido no jugado
+      team1Indicator.classList.add("unplayed");
+      team2Indicator.classList.add("unplayed");
+      team1Indicator.textContent = "";
+      team2Indicator.textContent = "";
   } else {  // Equipo 2 gana
-    document.getElementById("team1-indicator").classList.add("loser");
-    document.getElementById("team2-indicator").classList.add("winner");
+      team1Indicator.classList.add("loser");
+      team2Indicator.classList.add("winner");
+      team1Indicator.textContent = `${result}`;
+      team2Indicator.textContent = `+${Math.abs(result)}`;
   }
 }
 
@@ -278,9 +289,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   loadMatchButtons(); // Cargar botones F1, F2, ...
   loadLastMatch();    // Cargar datos del último partido por defecto
-});
-
-// Redireccion a otro HTML
-document.getElementById("playersIcon").addEventListener("click", function() {
-  window.location.href = "players.html";
 });

@@ -110,10 +110,12 @@
             gap: 10px; /* Espacio entre el círculo y el texto */
         }
         .team .team-indicator {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
+            width: 23px;
+            height: 23px;
+            border-radius: 10%;
             display: inline-block;
+            line-height: 23px;
+            font-size: 0.8em;
         }
         .team .winner {
             background-color: #28a745; /* Verde para el ganador */
@@ -296,7 +298,7 @@
         <div class="match-buttons"></div> <!-- Contenedor para los botones -->
         <div class="teams">
             <div class="team">
-                <h3>EQUIPO 1<span class="team-indicator" id="team1-indicator"></h3> 
+                <h3>EQUIPO 1<span class="team-indicator" id="team1-indicator">0</span></h3> 
                 <table>
                     <thead>
                         <tr>
@@ -310,7 +312,7 @@
                 </table>
             </div>
             <div class="team">
-                <h3>EQUIPO 2<span class="team-indicator" id="team2-indicator"></h3>
+                <h3>EQUIPO 2<span class="team-indicator" id="team2-indicator">0</span></h3>
                 <table>
                     <thead>
                         <tr>
@@ -331,7 +333,9 @@
                     <a href="players.html">
                         <img src="assets/icons/trophy-svgrepo-com.svg" class="icon" alt="Trophy Icon">
                     </a>
-                    <img src="assets/icons/stats-svgrepo-com.svg" class="icon" alt="Stats Icon">
+                    <a href="stats.html">
+                        <img src="assets/icons/stats-svgrepo-com.svg" class="icon" alt="Stats Icon">
+                    </a>
                 </div>
                 <div class="icons-r">
                     <img src="assets/icons/delete-svgrepo-com.svg" class="icon" alt="Delete Icon">

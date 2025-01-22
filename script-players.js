@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${stats.nombre}</td>
+                    <td class= "jugador-nombre" data-id="${id}" style="cursor:pointer">${stats.nombre}</td>
                     <td>${rachaHTML}</td>
                     <td>${stats.pj}</td>
                     <td>${stats.g}</td>
@@ -99,6 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${stats.p}</td>
                     <td>${stats.difGol}</td>
                 `;
+
+                // Agregar evento de clic para redirigir a stats.html con el ID del jugador
+                row.querySelector('.jugador-nombre').addEventListener('click', function() {
+                    const jugadorId = this.getAttribute('data-id');
+                    window.location.href = `stats.html?id=${jugadorId}`;
+                });
+
                 tbody.appendChild(row);
             });
 
